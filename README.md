@@ -22,7 +22,7 @@
 
 ## Introdução <a name=Introdução></a>
 
-A Amazon é considerada o maior armazém e _retailer_ do mundo. O seu catálogo é composto pelos mais variados produtos, desde decoração da casa, livros, roupa e o maior de todos, tecnologia. A tecnologia é o seu foco e o facto de a vender a um preço muitas vezes mais acessível do que as lojas físicas do próprio país tornou a Amazon numa das empresas mais valiosas do mundo. Assim sendo e falando por experência pessoal, é algo comum esperar por uma promoção e ir acompanhando o preço de um produto que se deseja obter.
+A Amazon é considerada o maior armazém e _retailer_ do mundo. O seu catálogo é composto pelos mais variados produtos, desde decoração da casa, livros, roupa e o maior de todos, tecnologia. A tecnologia é o seu foco e o facto de a vender a um preço muitas vezes mais acessível do que as lojas físicas do próprio país tornou a Amazon numa das empresas mais valiosas do mundo. Assim sendo e falando por experência pessoal, é algo comum esperar por uma promoção e ir acompanhando o preço de um produto que se deseja obter.  
 Na Europa, a Amazon possui 5 lojas virtuais (agora 4, devido ao _Brexit_). No entanto, é possível comprar em qualquer destas lojas e enviar para Portugal, algo que acontece frequentemente visto existir muito mais oferta e os preços serem mais acessíveis quando comparados aos praticados nas lojas portuguesas.
 Um dos principais objetivos deste projeto é estabelecer uma ligação bem sucedida com um API. Para isso, é necessário primeiro escolher um que esteja de acordo com o que queremos desenvolver.  
 Devido a isto, o meu projeto consiste num API que fornece o preço atual de um produto e conforme o mesmo, a placa oferece uma resposta fazendo uso dos LEDs.
@@ -30,12 +30,12 @@ Devido a isto, o meu projeto consiste num API que fornece o preço atual de um p
 ***
 ## Desenvolvimento do Projeto <a name="Desenvolvimento"></a>
 
-#### Visão Geral <a name="Overview"></a>
+### Visão Geral <a name="Overview"></a>
 
-A finalidade do projeto é ser um _tracker_ do preço de determinado produto da Amazon. O utilizador estabelece um valor mínimo que está disposto a pagar pelo produto e  em qual loja virtual deseja pesquisar o preço. Também insere qual o preço habitual do produto.
+A finalidade do projeto é ser um _tracker_ do preço de determinado produto da Amazon. O utilizador estabelece um valor mínimo que está disposto a pagar pelo produto e  em qual loja virtual deseja pesquisar o preço. Também insere qual o preço habitual do produto.  
 Como já foi referido acima, o objetivo do API é obter o preço atual de determinado produto. Após isso, o código analisa o preço atual e caso esteja abaixo ou igual ao preço minimo, acende o LED verde. No caso de estar acima, acende o LED vermelho.
-O LED amarelo também tem uma função. É estabelecido um intervalo acima do preço mínimo para o qual este acende. É mais intuitivo se explicar usando um exemplo.
-Vamos imaginar que o preço habitual do produto (inserido pelo utilizador) é de 100€.
+O LED amarelo também tem uma função. É estabelecido um intervalo acima do preço mínimo para o qual este acende. É mais intuitivo se explicar usando um exemplo.  
+Vamos imaginar que o preço habitual do produto (inserido pelo utilizador) é de 100€.  
 O preço minimo que o utilizador quer pagar é 80€. O intervalo estabelico é 20% da diferença entre estes dois preços. Então neste caso, os LEDs funcionariam da seguinte forma:
 
 * LED Verde acende se preço <= 80€.
@@ -46,20 +46,21 @@ Estabeleci este intervalo de forma a existir uma margem de tolerância (quem est
 
 Além destas funçoes, outras funções esperadas da placa seria o uso dos butões. O botão esquerdo serviria para executar o API enquanto o direito serviria para alterar entre lojas virtuais (mudar da loja Espanhola para a Italiana, como exemplo).
 
-#### Escolha do API <a name="API"> </a>
+### Escolha do API <a name="API"> </a>
 
 Incialmente tentei encontrar um API oficial da Amazon, mas depois de alguma pesquisa percebi que é necessário uma conta de vendedor na amazon para ter acesso ao mesmo. Após isso, procurei por APi's de terceiros. O primeiro que encontrei foi o [Rainforest API](https://rainforestapi.com/). A conta _free_ dava acesso a 100 pedidos e returnava toda a informação do produto, o que se tornou num problema. O ficheiro json recebido continha tanta informação (mais de 100 linhas de resposta) que recebia a seguinte mensagem como erro:
-_<center>memory allocation failed, allocating 19184 bytes</center>_
-A memória flash do ESP32 não era suficiente para tanta informação e apesar de eu inserir alguns comamdos _gc.collect_ (comando que liberta memória que contém dados inúteis) ao longo do código, este só funcionava 1 em cada 5 vezes e por isso decidi abandonar este API.
+_<center>memory allocation failed, allocating 19184 bytes</center>_  
+A memória flash do ESP32 não era suficiente para tanta informação e apesar de eu inserir alguns comandos _gc.collect_ (comando que liberta memória que contém dados desnecessários) ao longo do código, este só funcionava 1 em cada 5 vezes e por isso decidi abandonar este API.    
 Ao procurar outro API, tentei-me focar num que só retornasse o preço e não outra informação que não me era útil.
 Após alguma pesquisa consegui encontrar o [Amazon Price](https://rapidapi.com/ajmorenodelarosa/api/amazon-price1) que oferece 150 pedidos gratuitos por mês. Este API apenas retorna informação relacionado com o preço, o que é ideal visto que só preciso do valor do preço atual.
-O API recebe os seguintes parâmetros:  
+O API recebe os seguintes parâmetros: 
+
 &nbsp; 1. Loja virtual a aceder ('ES','DE','IT', entre outras)  
 &nbsp; 2. ASIN do produto (que é comum a todas as lojas e encontra-se no link)  
-![Onde encontrar o ASIN](https://raw.githubusercontent.com/damasio98/edm_proj_final/master/ASIN.PNG?token=APT2DNIPAOYKONYDIADMLNC7ASCYK)  
+![Onde encontrar o ASIN](https://raw.githubusercontent.com/damasio98/edm_proj_final/master/ASIN.PNG?token=APT2DNIPAOYKONYDIADMLNC7ASCYK)
 &nbsp; 3. Chave do API  
 
-#### Código <a name="Codigo"></a>
+### Código <a name="Codigo"></a>
 
 O código exclusivo para o API revelou-se um desafio, pois não era oferecido um URL completo, mas sim um código em python que teve de ser adaptado para Micropython (_urequests_ apresenta diferenças quando comparado com o seu fundador _requests_). Após acertar todos os pormenores, consegui obter o ficheiro json. No código final, abstive-me de atribuir um print ao ficheiro já que não é necessário termos todas as informações fornecidas.
 
@@ -94,7 +95,7 @@ Após várias pesquisas sobre este erro e o que significa, cheguei a várias con
  
 &nbsp; 1. Devido ao elevado número de _threads_ já existentes sobre este problema, é um erro comum do ESP32 e que ainda não tem solução fornecida pela _ESPRESSIF_.
 
-&nbsp; 2. O erro origina de 2 situações: a primeira é uma falha de memória insuficiente quando o microcontrolador se encontra a realizar várias operações. A segunda situação é que ao realizar várias _"flash write"_ o esp32 "tranca-se" e suspenda todas as outras tarefas, incluindo o Wi-fi. Isto leva a que perca a conecção e por isso o código do API seja interrompido ([explicação fornecida por um representante da ESPRESSIF](https://www.esp32.com/viewtopic.php?t=6800&p=29472)).
+&nbsp; 2. O erro origina de 2 situações: a primeira é uma falha de memória flash quando o microcontrolador se encontra a realizar várias operações. A segunda situação é que ao realizar várias _"flash write"_ o esp32 "tranca-se" e suspende todas as outras tarefas, incluindo o Wi-fi. Isto leva a que perca a conecção e por isso o código do API seja interrompido ([explicação fornecida por um representante da ESPRESSIF](https://www.esp32.com/viewtopic.php?t=6800&p=29472)).
 
 &nbsp; 3. Uma possível solução seria acrescentar um taskdelay ou sleepms() de 11 milisegundos. Isto faria com que o microcontrolador tivesse tempo de fazer todas as suas tarefas. Infelizmente, embora esta solução ajudasse e me permitisse obter resultados ocasionalmente, não chegava a ser nem 50% fiável.
 
