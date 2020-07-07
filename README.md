@@ -57,7 +57,7 @@ O API recebe os seguintes parâmetros:
 
 &nbsp; 1. Loja virtual a aceder ('ES','DE','IT', entre outras)  
 &nbsp; 2. ASIN do produto (que é comum a todas as lojas e encontra-se no link)  
-![Onde encontrar o ASIN]https://github.com/damasio98/edm_proj_final/blob/master/ASIN.PNG?raw=true)
+![Onde encontrar o ASIN](https://github.com/damasio98/edm_proj_final/blob/master/ASIN.PNG?raw=true)
 &nbsp; 3. Chave do API  
 
 ### Código <a name="Codigo"></a>
