@@ -56,7 +56,7 @@ Após alguma pesquisa consegui encontrar o [Amazon Price](https://rapidapi.com/a
 O API recebe os seguintes parâmetros:
 &nbsp; 1. Loja virtual a aceder ('ES','DE','IT', entre outras)
 &nbsp; 2. ASIN do produto (que é comum a todas as lojas e encontra-se no link)
-![Onde encontrar o ASIN](/ASIN.png)
+![Onde encontrar o ASIN](docs/ASIN.png)
 &nbsp; 3. Chave do API
 
 #### Código <a name="Codigo"></a>
@@ -72,18 +72,18 @@ Resumidamente, o esp32 desligava-se da internet o que fazia com o API falhase. F
 Após isto, decidi focar-me nos botões de forma a incorporar ao máximo todos os componentes que tinha comigo.
 Utilizando o que foi aprendido no trabalho do "Semáforo", criei o seguinte para os 2 botões:
 
-                        paises = ['ES','IT','DE','FR','GB']
-                        j=paises.index(país)
-                        if button_right.value()==0:
-                            sleep_ms(11)
-                            if país == 'GB':
-                                país = 'ES'
-                            else:
-                                país = paises[j+1] 
+paises = ['ES','IT','DE','FR','GB']
+j=paises.index(país)
+if button_right.value()==0:
+    sleep_ms(11)
+    if país == 'GB':
+        país = 'ES'
+    else:
+        país = paises[j+1] 
 
-                        if button_left.value()==0:
-                            sleep.ms(11)
-                            Amazon()
+if button_left.value()==0:
+    sleep.ms(11)
+    Amazon()
 
 Na primeira parte, podemos verificar que sempre que carregamos no botão direito, muda o domínio da loja virtual.
 Já no segundo, toda o API e os respetivos comandos encontram-se dentro de uma função que denominei Amazon(). Ao carregar no botão esquerdo, a função percorre o seu ciclo e retorna os resultados. O código apesar de aparentar estar correto, apresenta o mesmo problema:
