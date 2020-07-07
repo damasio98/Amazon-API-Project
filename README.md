@@ -54,10 +54,10 @@ A memória flash do ESP32 não era suficiente para tanta informação e apesar d
 Ao procurar outro API, tentei-me focar num que só retornasse o preço e não outra informação que não me era útil.
 Após alguma pesquisa consegui encontrar o [Amazon Price](https://rapidapi.com/ajmorenodelarosa/api/amazon-price1) que oferece 150 pedidos gratuitos por mês. Este API apenas retorna informação relacionado com o preço, o que é ideal visto que só preciso do valor do preço atual.
 O API recebe os seguintes parâmetros:
-&nbsp; 1. Loja virtual a aceder ('ES','DE','IT', entre outras)
-&nbsp; 2. ASIN do produto (que é comum a todas as lojas e encontra-se no link)
-![Onde encontrar o ASIN](docs/ASIN.png)
-&nbsp; 3. Chave do API
+&nbsp; 1. Loja virtual a aceder ('ES','DE','IT', entre outras)  
+&nbsp; 2. ASIN do produto (que é comum a todas as lojas e encontra-se no link)  
+![Onde encontrar o ASIN](docs/ASIN.png)  
+&nbsp; 3. Chave do API  
 
 #### Código <a name="Codigo"></a>
 
