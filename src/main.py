@@ -31,7 +31,11 @@ headers = {
 resposta = requests.get(url, headers=headers).json()
 #print(formatar(dumps(resposta))) #visto não ser necessário ao programa imprimir o ficheiro
 
-preço = resposta['prices']['priceAmazon']/100 #o preço é dado em cêntimos e por isso converto para euros
+if resposta['prices']['priceAmazon']==None:
+  preço = resposta['prices']['priceNew']/100
+else:
+  preço = resposta['prices']['priceAmazon']/100 #o preço é dado em cêntimos e por isso converto para euros
+
 gc.collect()
 
 diferença = (preço_atual - preço_ideal)/5
@@ -56,9 +60,8 @@ print('Amazon {0}'\
 print('{0}:'\
   .format(resposta['title']))
 print('{0}€'\
-  .format(resposta['prices']['priceAmazon']/100))
+  .format(preço))
 print('Compara aqui o preco da Amazon {0} com as outras lojas europeias:'\
   .format(país))
 print(url_tp)
 print('')
-
