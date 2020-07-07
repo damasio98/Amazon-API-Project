@@ -1,6 +1,6 @@
-#<center>Projeto Final</center> 
-###<center>Eletrónica Digital e Microprocessadores</center>
-####<center>José Damásio Tavares</center>
+# <center>Projeto Final</center> 
+### <center>Eletrónica Digital e Microprocessadores</center>
+#### <center>José Damásio Tavares</center>
 **<center>up201603301</center>** 
 ***
 ## Indice
@@ -14,13 +14,13 @@
 5. [Webgrafia](#Webgrafia)
 ***
 
-##Objetivos <a name="Objetivos"></a>
+## Objetivos <a name="Objetivos"></a>
 
 * Utilizar a funcionalidade de wifi do ESP32 para criar uma ligação com um servidor do serviço REST. O API escolhido irá-nos indicar o preço atual de um produto na Amazon.
 
 * A partir da informação obtida, interagir com os leds e botões da placa.
 
-##Introdução <a name=Introdução></a>
+## Introdução <a name=Introdução></a>
 
 A Amazon é considerada o maior armazém e _retailer_ do mundo. O seu catálogo é composto pelos mais variados produtos, desde decoração da casa, livros, roupa e o maior de todos, tecnologia. A tecnologia é o seu foco e o facto de a vender a um preço muitas vezes mais acessível do que as lojas físicas do próprio país tornou a Amazon numa das empresas mais valiosas do mundo. Assim sendo e falando por experência pessoal, é algo comum esperar por uma promoção e ir acompanhando o preço de um produto que se deseja obter.
 Na Europa, a Amazon possui 5 lojas virtuais (agora 4, devido ao _Brexit_). No entanto, é possível comprar em qualquer destas lojas e enviar para Portugal, algo que acontece frequentemente visto existir muito mais oferta e os preços serem mais acessíveis quando comparados aos praticados nas lojas portuguesas.
@@ -28,9 +28,9 @@ Um dos principais objetivos deste projeto é estabelecer uma ligação bem suced
 Devido a isto, o meu projeto consiste num API que fornece o preço atual de um produto e conforme o mesmo, a placa oferece uma resposta fazendo uso dos LEDs.
 
 ***
-##Desenvolvimento do Projeto <a name="Desenvolvimento"></a>
+## Desenvolvimento do Projeto <a name="Desenvolvimento"></a>
 
-####Visão Geral <a name="Overview"></a>
+#### Visão Geral <a name="Overview"></a>
 
 A finalidade do projeto é ser um _tracker_ do preço de determinado produto da Amazon. O utilizador estabelece um valor mínimo que está disposto a pagar pelo produto e  em qual loja virtual deseja pesquisar o preço. Também insere qual o preço habitual do produto.
 Como já foi referido acima, o objetivo do API é obter o preço atual de determinado produto. Após isso, o código analisa o preço atual e caso esteja abaixo ou igual ao preço minimo, acende o LED verde. No caso de estar acima, acende o LED vermelho.
@@ -46,7 +46,7 @@ Estabeleci este intervalo de forma a existir uma margem de tolerância (quem est
 
 Além destas funçoes, outras funções esperadas da placa seria o uso dos butões. O botão esquerdo serviria para executar o API enquanto o direito serviria para alterar entre lojas virtuais (mudar da loja Espanhola para a Italiana, como exemplo).
 
-####Escolha do API <a name="API"> </a>
+#### Escolha do API <a name="API"> </a>
 
 Incialmente tentei encontrar um API oficial da Amazon, mas depois de alguma pesquisa percebi que é necessário uma conta de vendedor na amazon para ter acesso ao mesmo. Após isso, procurei por APi's de terceiros. O primeiro que encontrei foi o [Rainforest API](https://rainforestapi.com/). A conta _free_ dava acesso a 100 pedidos e returnava toda a informação do produto, o que se tornou num problema. O ficheiro json recebido continha tanta informação (mais de 100 linhas de resposta) que recebia a seguinte mensagem como erro:
 _<center>memory allocation failed, allocating 19184 bytes</center>_
@@ -56,10 +56,10 @@ Após alguma pesquisa consegui encontrar o [Amazon Price](https://rapidapi.com/a
 O API recebe os seguintes parâmetros:
 &nbsp; 1. Loja virtual a aceder ('ES','DE','IT', entre outras)
 &nbsp; 2. ASIN do produto (que é comum a todas as lojas e encontra-se no link)
-![Onde encontrar o ASIN](ASIN.png)
+![Onde encontrar o ASIN](/ASIN.png)
 &nbsp; 3. Chave do API
 
-####Código <a name="Codigo"></a>
+#### Código <a name="Codigo"></a>
 
 O código exclusivo para o API revelou-se um desafio, pois não era oferecido um URL completo, mas sim um código em python que teve de ser adaptado para Micropython (_urequests_ apresenta diferenças quando comparado com o seu fundador _requests_). Após acertar todos os pormenores, consegui obter o ficheiro json. No código final, abstive-me de atribuir um print ao ficheiro já que não é necessário termos todas as informações fornecidas.
 
@@ -100,7 +100,7 @@ Após várias pesquisas sobre este erro e o que significa, cheguei a várias con
 
 Infelizmente, até à data de entrega do projeto não consegui encontrar uma solução para estes 2 problemas. Devido a isso, decidi manter o meu código mais simples só trabalhando com o API e com os LEDS. No entanto, acrescentei estes 2 códigos ao _github_ numa pasta à parte visto estarem a nivel técnico corretos. O código que percorria as 5 lojas encontra-se fora do _"src"_ com o nome "Codigo Extra - 5 Lojas" e o que interagia com os botões tem o nome "Codigo Extra - Botoes".
 ***
-##Conclusão <a name="Conclusão"></a>
+## Conclusão <a name="Conclusão"></a>
 
 Os objetivos principais do projeto foram cumpridos. Consegui de forma bem sucedida trabalhar com um API e integrá-lo com alguns componentes da placa. 
 
